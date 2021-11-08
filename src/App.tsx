@@ -1,58 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
-  );
-}
+import BookingManager from "./features/booking/BookingManager";
+import { createGlobalStyle } from "styled-components";
+import { useGetGradesQuery } from "./features/booking/gradesApislice";
+const GlobalStyle = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+    font-family: "Roboto";
+  }
+  
+  html, body, #root {
+		height: 100%;
+    width: 100%;
+    border: none;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+  }
+`;
+const App = (): JSX.Element => {
+	const { isError, isSuccess, error } = useGetGradesQuery();
+	return (
+		<>
+			{isSuccess && <BookingManager />}
+			{isError && <div>{`Error: ${error}`}</div>}
+			{!isError && !isSuccess && <div>Please wait...</div>}
+			<GlobalStyle />
+		</>
+	);
+};
 
 export default App;
